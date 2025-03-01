@@ -1,0 +1,1197 @@
+
+use wysa_data;
+
+select * from spotify_2023;
+
+---# Measure of central tendency # --
+
+---#  1) artist_count
+---# FIRST MOMENT BUSINESS DECISION 
+select 
+AVG(artist_count) AS avg_artist,
+min(artist_count)as min_artist_count,
+max(artist_count)as max_artist_count, 
+count(artist_count)as count_artist_count, 
+count(distinct(artist_count))as unique_artist_count, 
+sum(artist_count)as sum_artist_count ,
+max(artist_count) - min(artist_count) as range_artist_count from spotify_2023;
+
+#SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(artist_count) from 
+(select(artist_count),
+row_number()over(order by (artist_count)) as row_num,
+count(*)over() as total_artist_count
+from spotify_2023
+) as median_artist_count
+where row_num = (total_artist_count+1)/2 or row_num =(total_artist_count+2)/2;
+
+-- # MODE # --
+
+SELECT (artist_count), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (artist_count) ORDER BY COUNT(*) 
+DESC limit 1;
+
+#SQL query to count the total number of rows, non-null rows for the key column, and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(artist_count) AS non_null_rows, 
+COUNT(*) - COUNT(artist_count) AS missing_values 
+FROM spotify_2023;
+
+
+-- ##  SECOND MOMENT BUSINESS DECISION  ## --LIMIT 1
+
+Select variance(artist_count) from spotify_2023; -- # VERIANCE # -- 
+Select stddev(artist_count) as std_artist_count from spotify_2023; -- # STANDARD DEVAITION # --
+
+-- # THIRD MOMENT BUSINESS DECISION  # -- 
+-- SKEWNESS -- 
+
+SELECT (SUM(POWER(artist_count - 
+(SELECT AVG(artist_count) FROM spotify_2023),3)) /
+    (COUNT(*) * POWER ((SELECT STDDEV(artist_count) FROM spotify_2023),3))
+)   AS skewness_artist_count FROM spotify_2023;
+
+#After cleaning prepeocessing 
+
+-- #Detected Null values #
+
+Select * from spotify_2023 where artist_count is null;
+select count(*) as artist_count_null from spotify_2023 where artist_count is null;
+
+------#######    
+---#  released_year
+
+select 
+AVG(released_year) AS avg_released_year,
+min(released_year)as min_released_year,
+max(released_year)as max_released_year, 
+count(released_year)as count_released_year, 
+count(distinct(released_year))as unique_released_year, 
+sum(released_year)as sum_released_year,
+max(released_year) - min(released_year) as range_released_year from spotify_2023;
+
+#SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(released_year) from 
+(select(released_year),
+row_number()over(order by (released_year)) as row_num,
+count(*)over() as total_released_year
+from spotify_2023
+) as median_released_year
+where row_num = (total_released_year+1)/2 or row_num =(total_released_year +2)/2;
+
+-- # MODE # --
+
+SELECT (released_year), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (released_year) ORDER BY COUNT(*) 
+DESC limit 1;
+
+#SQL query to count the total number of rows, non-null rows for the key column, and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(released_year) AS non_null_rows, 
+COUNT(*) - COUNT(released_year) AS missing_values 
+FROM spotify_2023;
+
+
+-- ##  SECOND MOMENT BUSINESS DECISION  ## --LIMIT 1
+
+Select variance(released_year) from spotify_2023; -- # VERIANCE # -- 
+Select stddev(released_year) as std_released_year from spotify_2023; -- # STANDARD DEVAITION # --
+
+-- # THIRD MOMENT BUSINESS DECISION  # -- 
+-- SKEWNESS -- 
+
+SELECT (SUM(POWER(released_year - 
+(SELECT AVG(released_year) FROM spotify_2023),3)) /
+    (COUNT(*) * POWER ((SELECT STDDEV(released_year) FROM spotify_2023),3))
+)   AS skewness_released_year FROM spotify_2023;
+
+#################### After cleaning prepeocessing #######################
+
+-- #### Detected Null values #####
+
+Select * from spotify_2023 where released_year is null;
+select count(*) as released_year_null from spotify_2023 where released_year is null;
+
+----------------- #### -----
+
+---#  released_month
+
+---# FIRST MOMENT BUSINESS DECISION 
+select 
+AVG(released_month) AS avg_released_month,
+min(released_month)as min_released_month,
+max(released_month)as max_released_month, 
+count(released_month)as count_released_month, 
+count(distinct(released_month))as unique_released_month, 
+sum(released_month)as sum_released_month,
+max(released_month) - min(released_month) as range_released_month from spotify_2023;
+
+#SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(released_month) from 
+(select(released_month),
+row_number()over(order by (released_month)) as row_num,
+count(*)over() as total_released_month
+from spotify_2023
+) as median_released_month
+where row_num = (total_released_month + 1) / 2 or row_num =(total_released_month +2 ) /2;
+
+-- # MODE # --
+
+SELECT (released_month), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (released_month) ORDER BY COUNT(*) 
+DESC limit 1;
+
+# SQL query to count the total number of rows, non-null rows for the key column, 
+# and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(released_month) AS non_null_rows, 
+COUNT(*) - COUNT(released_month) AS missing_values 
+FROM spotify_2023;
+
+ # After cleaning prepeocessing 
+
+-- #Detected Null values 
+
+Select * from spotify_2023 where released_month is null;
+select count(*) as released_month_null from spotify_2023 where released_month is null;
+
+#released_day 
+
+---# FIRST MOMENT BUSINESS DECISION 
+select 
+AVG(released_day) AS avg_released_day,
+min(released_day)as min_released_day,
+max(released_day)as max_released_day, 
+count(released_day)as count_released_day, 
+count(distinct(released_day))as unique_released_day, 
+sum(released_day)as sum_released_day,
+max(released_day) - min(released_day) as range_released_day from spotify_2023;
+
+#SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(released_day) from 
+(select(released_day),
+row_number()over(order by (released_day)) as row_num,
+count(*)over() as total_released_day
+from spotify_2023
+) as median_released_day
+where row_num = (total_released_day+ 1) / 2 or row_num =(total_released_day+2 ) /2;
+
+-- # MODE # --
+
+SELECT (released_day), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (released_day) ORDER BY COUNT(*) 
+DESC limit 1;
+
+# SQL query to count the total number of rows, non-null rows for the key column, 
+# and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(released_day) AS non_null_rows, 
+COUNT(*) - COUNT(released_day) AS missing_values 
+FROM spotify_2023;
+
+#After cleaning prepeocessing 
+
+-- #Detected Null values 
+
+Select * from spotify_2023 where released_day is null;
+select count(*) as released_day_null from spotify_2023 where released_day is null;
+
+
+
+---# in_spotify_playlists,
+
+---# FIRST MOMENT BUSINESS DECISION 
+select 
+AVG(in_spotify_playlists) AS avg_in_spotify_playlists,
+min(in_spotify_playlists)as min_in_spotify_playlists,
+max(in_spotify_playlists)as max_in_spotify_playlists, 
+count(in_spotify_playlists)as count_in_spotify_playlists, 
+count(distinct(in_spotify_playlists))as unique_in_spotify_playlists, 
+sum(in_spotify_playlists)as sum_in_spotify_playlistst ,
+max(in_spotify_playlists) - min(in_spotify_playlists) as range_in_spotify_playlists from spotify_2023;
+
+#SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(in_spotify_playlists) from 
+(select(in_spotify_playlists),
+row_number()over(order by (in_spotify_playlists)) as row_num,
+count(*)over() as total_in_spotify_playlists
+from spotify_2023
+) as median_in_spotify_playlists
+where row_num = (total_in_spotify_playlists +1)/2 or row_num =(total_in_spotify_playlists +2)/2;
+
+-- # MODE # --
+
+SELECT (in_spotify_playlists), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (in_spotify_playlists) ORDER BY COUNT(*) 
+DESC limit 1;
+
+#SQL query to count the total number of rows, non-null rows for the key column, and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(in_spotify_playlists) AS non_null_rows, 
+COUNT(*) - COUNT(in_spotify_playlists) AS missing_values 
+FROM spotify_2023;
+
+
+-- ##  SECOND MOMENT BUSINESS DECISION  ## --LIMIT 1
+
+Select variance(in_spotify_playlists) from spotify_2023; -- # VERIANCE # -- 
+Select stddev(in_spotify_playlists) as std_in_spotify_playlists from spotify_2023; -- # STANDARD DEVAITION # --
+
+-- # THIRD MOMENT BUSINESS DECISION  # -- 
+-- SKEWNESS -- 
+
+SELECT (SUM(POWER(in_spotify_playlists - 
+(SELECT AVG(in_spotify_playlists) FROM spotify_2023),3)) /
+    (COUNT(*) * POWER ((SELECT STDDEV(in_spotify_playlists) FROM spotify_2023),3))
+)   AS skewness_in_spotify_playlists FROM spotify_2023;
+
+# After cleaning prepeocessing 
+
+-- # Detected Null values 
+
+Select * from spotify_2023 where in_spotify_playlists is null;
+select count(*) as in_spotify_playlists_null from spotify_2023 where in_spotify_playlists is null;
+
+
+# in_spotify_charts,
+
+
+---# FIRST MOMENT BUSINESS DECISION 
+select 
+AVG(in_spotify_charts) AS avg_in_spotify_charts,
+min(in_spotify_charts)as min_in_spotify_charts,
+max(in_spotify_charts)as max_in_spotify_charts, 
+count(in_spotify_charts)as count_in_spotify_charts, 
+count(distinct(in_spotify_charts))as unique_in_spotify_charts, 
+sum(in_spotify_charts)as sum_in_spotify_charts,
+max(in_spotify_charts) - min(in_spotify_charts) as range_in_spotify_charts 
+from spotify_2023;
+
+#SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(in_spotify_charts) from 
+(select(in_spotify_charts),
+row_number()over(order by (in_spotify_charts)) as row_num,
+count(*)over() as total_in_spotify_charts
+from spotify_2023
+) as median_in_spotify_charts
+where row_num = (total_in_spotify_charts +1)/2 or row_num =(total_in_spotify_charts +2)/2;
+
+-- # MODE # --
+
+SELECT (in_spotify_charts), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (in_spotify_charts) ORDER BY COUNT(*) 
+DESC limit 1;
+
+#SQL query to count the total number of rows, non-null rows for the key column, and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(in_spotify_charts) AS non_null_rows, 
+COUNT(*) - COUNT(in_spotify_charts) AS missing_values 
+FROM spotify_2023;
+
+
+-- ##  SECOND MOMENT BUSINESS DECISION  ## --LIMIT 1
+
+Select variance(in_spotify_charts) from spotify_2023; -- # VERIANCE # -- 
+Select stddev(in_spotify_charts) as std_artist_count from spotify_2023; -- # STANDARD DEVAITION # --
+
+-- # THIRD MOMENT BUSINESS DECISION  # -- 
+-- SKEWNESS -- 
+
+SELECT (SUM(POWER(in_spotify_charts - 
+(SELECT AVG(in_spotify_charts) FROM spotify_2023),3)) /
+    (COUNT(*) * POWER ((SELECT STDDEV(in_spotify_charts) FROM spotify_2023),3))
+)   AS skewness_in_spotify_charts FROM spotify_2023;
+
+# After cleaning prepeocessing 
+
+-- # Detected Null values 
+
+Select * from spotify_2023 where in_spotify_charts is null;
+select count(*) as in_spotify_charts_null from spotify_2023 where in_spotify_charts is null;
+
+
+
+#  streams,	
+----
+---# FIRST MOMENT BUSINESS DECISION 
+select 
+AVG(streams) AS avg_streams,
+min(streams)as min_streams,
+max(streams)as max_streams, 
+count(streams)as count_streams, 
+count(distinct(streams))as unique_streams, 
+sum(streams)as sum_streams ,
+max(streams) - min(streams) as range_streams from spotify_2023;
+
+#SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(streams) from 
+(select(streams),
+row_number()over(order by (streams)) as row_num,
+count(*)over() as total_streams
+from spotify_2023
+) as median_streams
+where row_num = (total_streams +1)/2 or row_num =(total_streams +2)/2;
+
+-- # MODE # --
+
+SELECT (streams), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (streams) ORDER BY COUNT(*) 
+DESC limit 1;
+
+#SQL query to count the total number of rows, non-null rows for the key column, and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(streams) AS non_null_rows, 
+COUNT(*) - COUNT(streams) AS missing_values 
+FROM spotify_2023;
+
+
+-- #  SECOND MOMENT BUSINESS DECISION  ## --LIMIT 1
+
+Select variance(streams) from spotify_2023; -- # VERIANCE # -- 
+Select stddev(streams) as std_streams from spotify_2023; -- # STANDARD DEVAITION # --
+
+-- # THIRD MOMENT BUSINESS DECISION  # -- 
+-- SKEWNESS -- 
+
+SELECT (SUM(POWER(streams - 
+(SELECT AVG(streams) FROM spotify_2023),3)) /
+    (COUNT(*) * POWER ((SELECT STDDEV(streams) FROM spotify_2023),3))
+)   AS skewness_artist_count FROM spotify_2023;
+
+# After cleaning prepeocessing 
+
+-- # Detected Null values 
+
+Select * from spotify_2023 where streams is null;
+select count(*) as artist_count_null from spotify_2023 where streams is null;
+
+# in_apple_playlists,
+
+---# FIRST MOMENT BUSINESS DECISION 
+select 
+AVG(in_apple_playlists) AS avg_in_apple_playlists,
+min(in_apple_playlists)as min_in_apple_playlists,
+max(in_apple_playlists)as max_in_apple_playlists, 
+count(in_apple_playlists)as count_in_apple_playlists, 
+count(distinct(in_apple_playlists))as unique_in_apple_playlists, 
+sum(in_apple_playlists)as sum_in_apple_playlists ,
+max(in_apple_playlists) - min(in_apple_playlists) as range_in_apple_playlists 
+from spotify_2023;
+
+#SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(in_apple_playlists) from 
+(select(in_apple_playlists),
+row_number()over(order by (in_apple_playlists)) as row_num,
+count(*)over() as total_in_apple_playlists
+from spotify_2023
+) as median_in_apple_playlists
+where row_num = (total_in_apple_playlists +1)/2 or row_num =(total_in_apple_playlists +2)/2;
+
+-- # MODE # --
+
+SELECT (in_apple_playlists), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (in_apple_playlists) ORDER BY COUNT(*) 
+DESC limit 1;
+
+#SQL query to count the total number of rows, non-null rows for the key column, and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(in_apple_playlists) AS non_null_rows, 
+COUNT(*) - COUNT(in_apple_playlists) AS missing_values 
+FROM spotify_2023;
+
+-- ##  SECOND MOMENT BUSINESS DECISION  ## --LIMIT 1
+
+Select variance(in_apple_playlists) from spotify_2023; -- # VERIANCE # -- 
+Select stddev(in_apple_playlists) as std_in_apple_playlists from spotify_2023; -- # STANDARD DEVAITION # --
+
+-- # THIRD MOMENT BUSINESS DECISION  # -- 
+-- SKEWNESS -- 
+
+SELECT (SUM(POWER(in_apple_playlists - 
+(SELECT AVG(in_apple_playlists) FROM spotify_2023),3)) /
+    (COUNT(*) * POWER ((SELECT STDDEV(in_apple_playlists) FROM spotify_2023),3))
+)   AS skewness_in_apple_playlists FROM spotify_2023;
+
+# After cleaning prepeocessing 
+-- # Detected Null values 
+
+Select * from spotify_2023 where in_apple_playlists is null;
+select count(*) as in_apple_playlists_null from spotify_2023 where in_apple_playlists is null;
+
+#	in_apple_charts,	
+
+---# FIRST MOMENT BUSINESS DECISION 
+select 
+AVG(in_apple_charts) AS avg_in_apple_charts,
+min(in_apple_charts)as min_in_apple_charts,
+max(in_apple_charts)as max_in_apple_charts, 
+count(in_apple_charts)as count_in_apple_charts, 
+count(distinct(in_apple_charts))as unique_in_apple_charts, 
+sum(in_apple_charts)as sum_in_apple_charts ,
+max(in_apple_charts) - min(in_apple_charts) as range_in_apple_charts from spotify_2023;
+
+# SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(in_apple_charts) from 
+(select(in_apple_charts),
+row_number()over(order by (in_apple_charts)) as row_num,
+count(*)over() as total_in_apple_charts
+from spotify_2023
+) as median_in_apple_charts
+where row_num = (total_in_apple_charts +1)/2 or row_num =(total_in_apple_charts +2)/2;
+
+-- # MODE # --
+
+SELECT (in_apple_charts), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (in_apple_charts) ORDER BY COUNT(*) 
+DESC limit 1;
+
+#SQL query to count the total number of rows, non-null rows for the key column, and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(in_apple_charts) AS non_null_rows, 
+COUNT(*) - COUNT(in_apple_charts) AS missing_values 
+FROM spotify_2023;
+
+-- ##  SECOND MOMENT BUSINESS DECISION  ## --LIMIT 1
+
+Select variance(in_apple_charts) from spotify_2023; -- # VERIANCE # -- 
+Select stddev(in_apple_charts) as std_in_apple_charts from spotify_2023; -- # STANDARD DEVAITION # --
+
+-- # THIRD MOMENT BUSINESS DECISION  # -- 
+-- SKEWNESS -- 
+
+SELECT (SUM(POWER(in_apple_charts - 
+(SELECT AVG(in_apple_charts) FROM spotify_2023),3)) /
+    (COUNT(*) * POWER ((SELECT STDDEV(in_apple_charts) FROM spotify_2023),3))
+)   AS skewness_in_apple_charts FROM spotify_2023;
+
+# After cleaning prepeocessing 
+
+-- # Detected Null values 
+
+Select * from spotify_2023 where in_apple_charts is null;
+select count(*) as in_apple_charts_null from spotify_2023 where in_apple_charts is null;
+
+---# in_deezer_playlists,
+
+---# FIRST MOMENT BUSINESS DECISION 
+select 
+AVG(in_deezer_playlists) AS avg_in_deezer_playlists,
+min(in_deezer_playlists)as min_in_deezer_playlists,
+max(in_deezer_playlists)as max_in_deezer_playlists, 
+count(in_deezer_playlists)as count_in_deezer_playlists, 
+count(distinct(in_deezer_playlists))as unique_in_deezer_playlists, 
+sum(in_deezer_playlists)as sum_in_deezer_playlists ,
+max(in_deezer_playlists) - min(in_deezer_playlists) as range_in_deezer_playlists from spotify_2023;
+
+#SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(in_deezer_playlists) from 
+(select(in_deezer_playlists),
+row_number()over(order by (in_deezer_playlists)) as row_num,
+count(*)over() as total_in_deezer_playlists
+from spotify_2023
+) as median_in_deezer_playlists
+where row_num = (total_in_deezer_playlists +1)/2 or row_num =(total_in_deezer_playlists +2)/2;
+
+-- # MODE # --
+
+SELECT (in_deezer_playlists), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (in_deezer_playlists) ORDER BY COUNT(*) 
+DESC limit 1;
+
+#SQL query to count the total number of rows, non-null rows for the key column, and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(in_deezer_playlists) AS non_null_rows, 
+COUNT(*) - COUNT(in_deezer_playlists) AS missing_values 
+FROM spotify_2023;
+
+-- ##  SECOND MOMENT BUSINESS DECISION  ## --LIMIT 1
+
+Select variance(in_deezer_playlists) from spotify_2023; -- # VERIANCE # -- 
+Select stddev(in_deezer_playlists) as std_in_deezer_playlists from spotify_2023; -- # STANDARD DEVAITION # --
+
+-- # THIRD MOMENT BUSINESS DECISION  # -- 
+-- SKEWNESS -- 
+
+SELECT (SUM(POWER(in_deezer_playlists - 
+(SELECT AVG(in_deezer_playlists) FROM spotify_2023),3)) /
+    (COUNT(*) * POWER ((SELECT STDDEV(in_deezer_playlists) FROM spotify_2023),3))
+)   AS skewness_in_deezer_playlists FROM spotify_2023;
+
+# After cleaning prepeocessing 
+
+-- # Detected Null values 
+
+Select * from spotify_2023 where in_deezer_playlists is null;
+select count(*) as in_deezer_playlists_null from spotify_2023 where in_deezer_playlists is null;
+
+ # in_deezer_charts,
+
+---# FIRST MOMENT BUSINESS DECISION 
+select 
+AVG(in_deezer_charts) AS avg_in_deezer_charts,
+min(in_deezer_charts)as min_in_deezer_charts,
+max(in_deezer_charts)as max_in_deezer_charts, 
+count(in_deezer_charts)as count_in_deezer_charts, 
+count(distinct(in_deezer_charts))as unique_in_deezer_charts, 
+sum(in_deezer_charts)as sum_in_deezer_charts ,
+max(in_deezer_charts) - min(in_deezer_charts) as range_in_deezer_charts from spotify_2023;
+
+#SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(in_deezer_charts) from 
+(select(in_deezer_charts),
+row_number()over(order by (in_deezer_charts)) as row_num,
+count(*)over() as total_in_deezer_charts
+from spotify_2023
+) as median_in_deezer_charts
+where row_num = (total_in_deezer_charts +1)/2 or row_num =(total_in_deezer_charts +2)/2;
+
+-- # MODE # --
+
+SELECT (in_deezer_charts), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (in_deezer_charts) ORDER BY COUNT(*) 
+DESC limit 1;
+
+#SQL query to count the total number of rows, non-null rows for the key column, and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(in_deezer_charts) AS non_null_rows, 
+COUNT(*) - COUNT(in_deezer_charts) AS missing_values 
+FROM spotify_2023;
+
+
+-- ##  SECOND MOMENT BUSINESS DECISION  ## --LIMIT 1
+
+Select variance(in_deezer_charts) from spotify_2023; -- # VERIANCE # -- 
+Select stddev(in_deezer_charts) as std_in_deezer_charts from spotify_2023; -- # STANDARD DEVAITION # --
+
+-- # THIRD MOMENT BUSINESS DECISION  # -- 
+-- SKEWNESS -- 
+
+SELECT (SUM(POWER(in_deezer_charts - 
+(SELECT AVG(in_deezer_charts) FROM spotify_2023),3)) /
+    (COUNT(*) * POWER ((SELECT STDDEV(in_deezer_charts) FROM spotify_2023),3))
+)   AS skewness_in_deezer_charts FROM spotify_2023;
+
+# After cleaning prepeocessing 
+
+-- # Detected Null values 
+
+Select * from spotify_2023 where in_deezer_charts is null;
+select count(*) as in_deezer_charts_null from spotify_2023 where in_deezer_charts is null;
+
+
+ # in_shazam_charts, 
+ 
+ 
+---# FIRST MOMENT BUSINESS DECISION 
+select 
+AVG(in_shazam_charts) AS avg_in_shazam_charts,
+min(in_shazam_charts)as min_in_shazam_charts,
+max(in_shazam_charts)as max_in_shazam_charts, 
+count(in_shazam_charts)as count_in_shazam_charts, 
+count(distinct(in_shazam_charts))as unique_in_shazam_charts, 
+sum(in_shazam_charts)as sum_in_shazam_charts ,
+max(in_shazam_charts) - min(in_shazam_charts) as range_in_shazam_charts 
+from spotify_2023;
+
+#SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(in_shazam_charts) from 
+(select(in_shazam_charts),
+row_number()over(order by (in_shazam_charts)) as row_num,
+count(*)over() as total_in_shazam_charts
+from spotify_2023
+) as median_in_shazam_charts
+where row_num = (total_in_shazam_charts +1)/2 or row_num =(total_in_shazam_charts+2)/2;
+
+-- # MODE # --
+
+SELECT (in_shazam_charts), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (in_shazam_charts) ORDER BY COUNT(*) 
+DESC limit 1;
+
+#SQL query to count the total number of rows, non-null rows for the key column, and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(in_shazam_charts) AS non_null_rows, 
+COUNT(*) - COUNT(in_shazam_charts) AS missing_values 
+FROM spotify_2023;
+
+-- # SECOND MOMENT BUSINESS DECISION  ## --LIMIT 1
+
+Select variance(in_shazam_charts) from spotify_2023; -- # VERIANCE # -- 
+Select stddev(in_shazam_charts) as std_in_shazam_charts from spotify_2023; -- # STANDARD DEVAITION # --
+
+-- # THIRD MOMENT BUSINESS DECISION  # -- 
+-- SKEWNESS -- 
+
+SELECT (SUM(POWER(in_shazam_charts - 
+(SELECT AVG(in_shazam_charts) FROM spotify_2023),3)) /
+    (COUNT(*) * POWER ((SELECT STDDEV(in_shazam_charts) FROM spotify_2023),3))
+)   AS skewness_in_shazam_charts FROM spotify_2023;
+
+# After cleaning prepeocessing 
+
+-- # Detected Null values 
+
+Select * from spotify_2023 where in_shazam_charts is null;
+select count(*) as in_shazam_charts_null from spotify_2023 where in_shazam_charts is null;
+
+ ---- #bpm,
+
+---# FIRST MOMENT BUSINESS DECISION 
+select 
+AVG(bpm) AS avg_bpm,
+min(bpm)as min_bpm,
+max(bpm)as max_bpm, 
+count(bpm)as count_bpm, 
+count(distinct(bpm))as unique_bpm, 
+sum(bpm)as sum_bpm ,
+max(bpm) - min(bpm) as range_bpm from spotify_2023;
+
+#SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(bpm) from 
+(select(bpm),
+row_number()over(order by (bpm)) as row_num,
+count(*)over() as total_bpm
+from spotify_2023
+) as median_bpm
+where row_num = (total_bpm+1)/2 or row_num =(total_bpm+2)/2;
+
+-- # MODE # --
+
+SELECT (bpm), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (bpm) ORDER BY COUNT(*) 
+DESC limit 1;
+
+#SQL query to count the total number of rows, non-null rows for the key column, and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(bpm) AS non_null_rows, 
+COUNT(*) - COUNT(bpm) AS missing_values 
+FROM spotify_2023;
+
+-- ##  SECOND MOMENT BUSINESS DECISION  ## --LIMIT 1
+
+Select variance(bpm) from spotify_2023; -- # VERIANCE # -- 
+Select stddev(bpm) as std_bpm from spotify_2023; -- # STANDARD DEVAITION # --
+
+-- # THIRD MOMENT BUSINESS DECISION  # -- 
+-- SKEWNESS -- 
+
+SELECT (SUM(POWER(bpm - 
+(SELECT AVG(bpm) FROM spotify_2023),3)) /
+    (COUNT(*) * POWER ((SELECT STDDEV(bpm) FROM spotify_2023),3))
+)   AS skewness_bpm FROM spotify_2023;
+
+# After cleaning prepeocessing 
+
+-- # Detected Null values 
+
+Select * from spotify_2023 where bpm is null;
+select count(*) as bpm_null from spotify_2023 where bpm is null;
+
+#danceability_%, 
+
+use wysa_data;
+ALTER TABLE spotify_2023
+CHANGE COLUMN `danceability_%` danceability_percent  int;
+
+select * from spotify_2023;
+
+---# FIRST MOMENT BUSINESS DECISION 
+select 
+AVG (danceability_percent) AS avg_danceability_percent,
+min(danceability_percent)as min_danceability_percent,
+max(danceability_percent)as max_danceability_percent, 
+count(danceability_percent) as count_danceability_percent, 
+count(distinct(danceability_percent))as unique_danceability_percent, 
+sum(danceability_percent)as sum_danceability_percent ,
+max(danceability_percent) - min(danceability_percent) as range_danceability_percent 
+from spotify_2023;
+
+#SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(danceability_percent) from 
+(select(danceability_percent),
+row_number()over(order by (danceability_percent)) as row_num,
+count(*)over() as total_danceability_percent
+from spotify_2023
+) as median_danceability_percent
+where row_num = (total_danceability_percent +1)/2 or row_num =(total_danceability_percent +2)/2;
+
+-- # MODE # --
+
+SELECT (danceability_percent), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (danceability_percent) ORDER BY COUNT(*) 
+DESC limit 1;
+
+#SQL query to count the total number of rows, non-null rows for the key column, and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(danceability_percent) AS non_null_rows, 
+COUNT(*) - COUNT(danceability_percent) AS missing_values 
+FROM spotify_2023;
+
+-- ##  SECOND MOMENT BUSINESS DECISION  ## --LIMIT 1
+
+Select variance(danceability_percent) from spotify_2023; -- # VERIANCE # -- 
+Select stddev(danceability_percent) as std_danceability_percent from spotify_2023; -- # STANDARD DEVAITION # --
+
+-- # THIRD MOMENT BUSINESS DECISION  # -- 
+-- SKEWNESS -- 
+
+SELECT (SUM(POWER(danceability_percent - 
+(SELECT AVG(danceability_percent) FROM spotify_2023),3)) /
+    (COUNT(*) * POWER ((SELECT STDDEV(danceability_percent) FROM spotify_2023),3))
+)   AS skewness_danceability_percent FROM spotify_2023;
+
+# After cleaning prepeocessing 
+
+-- # Detected Null values 
+
+Select * from spotify_2023 where danceability_percent is null;
+select count(*) as danceability_percent_null from spotify_2023 where danceability_percent is null;
+
+
+---# valence_%,
+ALTER TABLE spotify_2023
+CHANGE COLUMN `valence_%` valence_percent  int;
+
+---# FIRST MOMENT BUSINESS DECISION 
+select 
+AVG(valence_percent) AS avg_valence_percent,
+min(valence_percent)as min_valence_percent,
+max(valence_percent)as max_valence_percent, 
+count(valence_percent)as count_valence_percent, 
+count(distinct(valence_percent))as unique_valence_percent, 
+sum(valence_percent)as sum_valence_percent,
+max(valence_percent) - min(valence_percent) as range_valence_percent 
+from spotify_2023;
+
+#SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(valence_percent) from 
+(select(valence_percent),
+row_number()over(order by (valence_percent)) as row_num,
+count(*)over() as total_valence_percent
+from spotify_2023
+) as median_valence_percent
+where row_num = (total_valence_percent +1)/2 or row_num =(total_valence_percent +2)/2;
+
+-- # MODE # --
+
+SELECT (valence_percent), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (valence_percent) ORDER BY COUNT(*) 
+DESC limit 1;
+
+#SQL query to count the total number of rows, non-null rows for the key column, and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(valence_percent) AS non_null_rows, 
+COUNT(*) - COUNT(valence_percent) AS missing_values 
+FROM spotify_2023;
+
+
+-- ##  SECOND MOMENT BUSINESS DECISION  ## --LIMIT 1
+
+Select variance(valence_percent) from spotify_2023; -- # VERIANCE # -- 
+Select stddev(valence_percent) as std_valence_percent from spotify_2023; -- # STANDARD DEVAITION # --
+
+-- # THIRD MOMENT BUSINESS DECISION  # -- 
+-- SKEWNESS -- 
+
+SELECT (SUM(POWER(valence_percent - 
+(SELECT AVG(valence_percent) FROM spotify_2023),3)) /
+    (COUNT(*) * POWER ((SELECT STDDEV(valence_percent) FROM spotify_2023),3))
+)   AS skewness_valence_percent FROM spotify_2023;
+
+# After cleaning prepeocessing 
+
+-- # Detected Null values 
+
+Select * from spotify_2023 where valence_percent is null;
+select count(*) as valence_percent_null from spotify_2023 where valence_percent is null;
+
+# energy_%,
+
+ALTER TABLE spotify_2023
+CHANGE COLUMN `energy_%` energy_percent  int;
+
+---# FIRST MOMENT BUSINESS DECISION 
+select 
+AVG(energy_percent) AS avg_energy_percent,
+min(energy_percent)as min_energy_percent,
+max(energy_percent)as max_energy_percent, 
+count(energy_percent)as count_energy_percent, 
+count(distinct(energy_percent))as unique_energy_percent, 
+sum(energy_percent)as sum_energy_percent,
+max(energy_percent) - min(energy_percent) as range_energy_percent from spotify_2023;
+
+#SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(energy_percent) from 
+(select(energy_percent),
+row_number()over(order by (energy_percent)) as row_num,
+count(*)over() as total_energy_percent
+from spotify_2023
+) as median_energy_percent
+where row_num = (total_energy_percent +1)/2 or row_num =(total_energy_percent  +2)/2;
+
+-- # MODE # --
+
+SELECT (energy_percent), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (energy_percent) ORDER BY COUNT(*) 
+DESC limit 1;
+
+#SQL query to count the total number of rows, non-null rows for the key column, and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(energy_percent) AS non_null_rows, 
+COUNT(*) - COUNT(energy_percent) AS missing_values 
+FROM spotify_2023;
+
+-- ##  SECOND MOMENT BUSINESS DECISION  ## --LIMIT 1
+
+Select variance(energy_percent) from spotify_2023; -- # VERIANCE # -- 
+Select stddev(energy_percent) as std_energy_percent from spotify_2023; -- # STANDARD DEVAITION # --
+
+-- # THIRD MOMENT BUSINESS DECISION  # -- 
+-- SKEWNESS -- 
+
+SELECT (SUM(POWER(energy_percent - 
+(SELECT AVG(energy_percent) FROM spotify_2023),3)) /
+    (COUNT(*) * POWER ((SELECT STDDEV(energy_percent) FROM spotify_2023),3))
+)   AS skewness_energy_percent FROM spotify_2023;
+
+# After cleaning prepeocessing 
+
+-- # Detected Null values 
+
+Select * from spotify_2023 where energy_percent is null;
+select count(*) as energy_percent_null from spotify_2023 where energy_percent is null;
+
+
+# acousticness_% ,	
+ 
+ALTER TABLE spotify_2023
+CHANGE COLUMN `acousticness_%` acousticness_percent  int;
+
+---# FIRST MOMENT BUSINESS DECISION 
+select 
+AVG(acousticness_percent) AS avg_acousticness_percent,
+min(acousticness_percent)as min_acousticness_percent,
+max(acousticness_percent)as max_acousticness_percent, 
+count(acousticness_percent)as count_acousticness_percent, 
+count(distinct(acousticness_percent))as unique_acousticness_percent, 
+sum(acousticness_percent)as sum_acousticness_percent ,
+max(acousticness_percent) - min(acousticness_percent) as range_acousticness_percent
+from spotify_2023;
+
+#SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(acousticness_percent) from 
+(select(acousticness_percent),
+row_number()over(order by (acousticness_percent)) as row_num,
+count(*)over() as total_acousticness_percent
+from spotify_2023
+) as median_acousticness_percent
+where row_num = (total_acousticness_percent +1)/2 or row_num =(total_acousticness_percent +2)/2;
+
+-- # MODE # --
+
+SELECT (acousticness_percent), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (acousticness_percent) ORDER BY COUNT(*) 
+DESC limit 1;
+
+#SQL query to count the total number of rows, non-null rows for the key column, and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(acousticness_percent) AS non_null_rows, 
+COUNT(*) - COUNT(acousticness_percent) AS missing_values 
+FROM spotify_2023;
+
+-- ##  SECOND MOMENT BUSINESS DECISION  ## --LIMIT 1
+
+Select variance(acousticness_percent) from spotify_2023; -- # VERIANCE # -- 
+Select stddev(acousticness_percent) as std_acousticness_percent from spotify_2023; -- # STANDARD DEVAITION # --
+
+-- # THIRD MOMENT BUSINESS DECISION  # -- 
+-- SKEWNESS -- 
+
+SELECT (SUM(POWER(acousticness_percent - 
+(SELECT AVG(acousticness_percent) FROM spotify_2023),3)) /
+    (COUNT(*) * POWER ((SELECT STDDEV(acousticness_percent) FROM spotify_2023),3))
+)   AS skewness_acousticness_percent FROM spotify_2023;
+
+# After cleaning prepeocessing 
+
+-- # Detected Null values 
+
+Select * from spotify_2023 where acousticness_percent is null;
+select count(*) as acousticness_percent_null from spotify_2023 where acousticness_percent is null;
+
+# instrumentalness_%,
+	
+ALTER TABLE spotify_2023
+CHANGE COLUMN `instrumentalness_%` instrumentalness_percent  int;
+
+
+---# FIRST MOMENT BUSINESS DECISION 
+select 
+AVG(instrumentalness_percent) AS avg_instrumentalness_percent,
+min(instrumentalness_percent)as min_instrumentalness_percent,
+max(instrumentalness_percent)as max_instrumentalness_percent, 
+count(instrumentalness_percent)as count_instrumentalness_percent, 
+count(distinct(instrumentalness_percent))as unique_instrumentalness_percent, 
+sum(instrumentalness_percent)as sum_instrumentalness_percent,
+max(instrumentalness_percent) - min(instrumentalness_percent) as range_instrumentalness_percent from spotify_2023;
+
+#SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(instrumentalness_percent) from 
+(select(instrumentalness_percent),
+row_number()over(order by (instrumentalness_percent)) as row_num,
+count(*)over() as total_instrumentalness_percent
+from spotify_2023
+) as median_instrumentalness_percent
+where row_num = (total_instrumentalness_percent +1)/2 or row_num =(total_instrumentalness_percent +2)/2;
+
+-- # MODE # --
+
+SELECT (instrumentalness_percent), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (instrumentalness_percent) ORDER BY COUNT(*) 
+DESC limit 1;
+
+#SQL query to count the total number of rows, non-null rows for the key column, and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(instrumentalness_percent) AS non_null_rows, 
+COUNT(*) - COUNT(instrumentalness_percent) AS missing_values 
+FROM spotify_2023;
+
+-- ##  SECOND MOMENT BUSINESS DECISION  ## --LIMIT 1
+
+Select variance(instrumentalness_percent) from spotify_2023; -- # VERIANCE # -- 
+Select stddev(instrumentalness_percent) as std_instrumentalness_percent from spotify_2023; -- # STANDARD DEVAITION # --
+
+-- # THIRD MOMENT BUSINESS DECISION  # -- 
+-- SKEWNESS -- 
+
+SELECT (SUM(POWER(instrumentalness_percent - 
+(SELECT AVG(instrumentalness_percent) FROM spotify_2023),3)) /
+    (COUNT(*) * POWER ((SELECT STDDEV(instrumentalness_percent) FROM spotify_2023),3))
+)   AS skewness_instrumentalness_percent FROM spotify_2023;
+
+# After cleaning prepeocessing 
+
+-- # Detected Null values 
+
+Select * from spotify_2023 where instrumentalness_percent is null;
+select count(*) as instrumentalness_percent_null from spotify_2023 where instrumentalness_percent is null;
+
+
+# liveness_%,	
+
+ALTER TABLE spotify_2023
+CHANGE COLUMN `liveness_%` liveness_percent  int;
+
+---# FIRST MOMENT BUSINESS DECISION 
+select 
+AVG(liveness_percent) AS avg_liveness_percent,
+min(liveness_percent)as min_liveness_percent,
+max(liveness_percent)as max_liveness_percent, 
+count(liveness_percent)as count_liveness_percent, 
+count(distinct(liveness_percent))as unique_liveness_percent, 
+sum(liveness_percent)as sum_liveness_percent,
+max(liveness_percent) - min(liveness_percent) as range_liveness_percent from spotify_2023;
+
+#SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(liveness_percent) from 
+(select(liveness_percent),
+row_number()over(order by (liveness_percent)) as row_num,
+count(*)over() as total_liveness_percent
+from spotify_2023
+) as median_liveness_percent
+where row_num = (total_liveness_percent +1)/2 or row_num =(total_liveness_percent +2)/2;
+
+-- # MODE # --
+
+SELECT (liveness_percent), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (liveness_percent) ORDER BY COUNT(*) 
+DESC limit 1;
+
+#SQL query to count the total number of rows, non-null rows for the key column, and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(liveness_percent) AS non_null_rows, 
+COUNT(*) - COUNT(liveness_percent) AS missing_values 
+FROM spotify_2023;
+
+
+-- ##  SECOND MOMENT BUSINESS DECISION  ## --LIMIT 1
+
+Select variance(liveness_percent) from spotify_2023; -- # VERIANCE # -- 
+Select stddev(liveness_percent) as std_liveness_percent from spotify_2023; -- # STANDARD DEVAITION # --
+
+-- # THIRD MOMENT BUSINESS DECISION  # -- 
+-- SKEWNESS -- 
+
+SELECT (SUM(POWER(liveness_percent - 
+(SELECT AVG(liveness_percent) FROM spotify_2023),3)) /
+    (COUNT(*) * POWER ((SELECT STDDEV(liveness_percent) FROM spotify_2023),3))
+)   AS skewness_liveness_percent FROM spotify_2023;
+
+# After cleaning prepeocessing 
+
+-- # Detected Null values 
+
+Select * from spotify_2023 where liveness_percent is null;
+select count(*) as liveness_percent_null from spotify_2023 where liveness_percent is null;
+
+# speechiness_%,
+
+ALTER TABLE spotify_2023
+CHANGE COLUMN `speechiness_%` speechiness_percent  int;
+
+---# FIRST MOMENT BUSINESS DECISION 
+select 
+AVG(speechiness_percent) AS avg_speechiness_percent,
+min(speechiness_percent)as min_speechiness_percent,
+max(speechiness_percent)as max_speechiness_percent, 
+count(speechiness_percent)as count_speechiness_percent, 
+count(distinct(speechiness_percent))as unique_speechiness_percent, 
+sum(speechiness_percent)as sum_speechiness_percent ,
+max(speechiness_percent) - min(speechiness_percent) as range_speechiness_percent
+from spotify_2023;
+
+#SQL query to median, mode from the Spotify database
+
+---# MEDIAN # --
+select(speechiness_percent) from 
+(select(speechiness_percent),
+row_number()over(order by (speechiness_percent)) as row_num,
+count(*)over() as total_speechiness_percent
+from spotify_2023
+) as median_speechiness_percent
+where row_num = (total_speechiness_percent +1)/2 or row_num =(total_speechiness_percent +2)/2;
+
+-- # MODE # --
+
+SELECT (speechiness_percent), COUNT(*) AS frequency
+FROM spotify_2023 
+GROUP BY (speechiness_percent) ORDER BY COUNT(*) 
+DESC limit 1;
+
+#SQL query to count the total number of rows, non-null rows for the key column, and calculate the number of missing values in the dataset
+ 
+SELECT 
+COUNT(*) AS total_rows, 
+COUNT(speechiness_percent) AS non_null_rows, 
+COUNT(*) - COUNT(speechiness_percent) AS missing_values 
+FROM spotify_2023;
+
+-- ##  SECOND MOMENT BUSINESS DECISION  ## --LIMIT 1
+
+Select variance(speechiness_percent) from spotify_2023; -- # VERIANCE # -- 
+Select stddev(speechiness_percent) as std_speechiness_percent from spotify_2023; -- # STANDARD DEVAITION # --
+
+-- # THIRD MOMENT BUSINESS DECISION  # -- 
+-- SKEWNESS -- 
+
+SELECT (SUM(POWER(speechiness_percent - 
+(SELECT AVG(speechiness_percent) FROM spotify_2023),3)) /
+    (COUNT(*) * POWER ((SELECT STDDEV(speechiness_percent) FROM spotify_2023),3))
+)   AS skewness_speechiness_percent FROM spotify_2023;
+
+# After cleaning prepeocessing 
+
+-- # Detected Null values 
+
+Select * from spotify_2023 where speechiness_percent is null;
+select count(*) as speechiness_percent_null from spotify_2023 where speechiness_percent is null;
+
+
+select * from spotify_2023;
+
+
